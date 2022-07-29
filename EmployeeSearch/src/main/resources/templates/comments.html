@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Comments - Employee Search</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet"/>
+        <!-- Summernote CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:replace="fragments/layout_navbar_loggedin :: navbar"></div>
+        <!-- /Navbar -->
+
+        <!-- Comments page contents -->
+        <div class="container-fluid">
+            <div class="row mx-5 mt-5 px-5 pt-5 text-center w-75">
+                <!-- Comments title -->
+                <div class="col">
+                    <h3 class="text-center darkblue">
+                        <i class="fas fa-comment"></i><strong class="ml-4">Comments</strong>
+                    </h3>
+                </div>
+            </div>
+            <!-- Original post -->
+            <div class="row mt-5 pr-5 pt-5">
+                <div class="col">
+                    <div class="card mb-5 ml-3 w-100">
+                        <div class="card-body">
+                            <form th:if="${account.useralias} == ${postuseralias}" class="text-right" th:action="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}/DeletePost(useralias=${account.useralias},postid=${post.id})}" th:method="DELETE">
+                                <button class="btn btn-sm" onclick="return confirm('* * * DELETE POST * * * \n \n* * ARE YOU SURE? * *\n \n Deleting the post also deletes the associated comments.');"><i class="fas fa-trash-alt mr-3"></i>Delete</button>
+                            </form>
+                            <form th:unless="${account.useralias} == ${postuseralias}" class="text-right" th:action="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}/LikePost(useralias=${account.useralias},postid=${post.id})}" method="POST">
+                                <button th:if="${post.likers.contains(account.useralias)}" type="submit" class="btn btn-sm pinkish"><i class="fas fa-thumbs-up mr-3 pinkish waves-effect waves-light"></i>Liked</button>
+                                <button name="likePostButton" th:unless="${post.likers.contains(account.useralias)}" type="submit" class="btn btn-sm"><i class="fas fa-thumbs-up mr-3 waves-effect waves-light"></i>Like</button>
+                            </form>
+                            <p class="card-title h5 py-2 text-left darkbluebg greyish">
+                                <i class="fas fa-envelope-open-text mx-3 greyishicon"></i>
+                                <strong class="ml-3" th:text="${post.title}">post title</strong>
+                            </p>
+                            <div class="overflow-auto">
+                                <p class="card-text" th:utext="${post.message}">post message</p>
+                                <p class="my-0">Likes: <span th:text="${post.likes}">likes</span></p>
+                                <p class="small my-0 text-center" th:text="${'posted: ' + post.postingtime}">time</p>
+                                <p class="h6 my-0 text-right" th:text="${'by: ' + postuseralias}"><strong>alias</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Back to posts page -->
+            <div th:replace="fragments/layout_links_texts :: posts"></div>
+            <!-- /Back to posts page -->
+            <!-- New comment box -->
+            <div class="row pb-5">
+                <div class="col">
+                    <div class="container-fluid bigbox">
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id})}" 
+                              th:object="${comment}" enctype="multipart/form-data" method="POST">
+                            <p class="h5 my-4 darkblue"><strong>New Comment:</strong></p>
+                            <textarea name="response" class="summernote" th:field="*{response}">new comment</textarea>
+                            <small th:if="${#fields.hasErrors('response')}"
+                                   th:errors="*{response}" class="text-danger">comment contents error message</small><br/>
+                            <button name="addCommentButton" type="submit" class="btn btn-outline-dark btn-md waves-effect">Comment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Lists of comments -->
+            <div class="row">
+                <!-- Recent comments -->
+                <div class="col mb-5">
+                    <div class="container bigbox">
+                        <!-- Recent comments title -->
+                        <div>
+                            <p class="h5 darkblue">Recent Comments:</p>
+                        </div>
+                        <div th:if="${totalPagesCommentsSize} == 0" class="my-5 pb-5">
+                            <span class="my-5">No Comments.</span>
+                        </div>
+                        <!-- Page -->
+                        <div class="paginationleft">
+                            <div th:unless="${totalPagesCommentsSize} == 0" class="pagination">
+                                <a th:if="${currentPageComments} > 0" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${currentPageComments} - 1)}">&laquo;</a>
+                                <span th:each="page:${totalPagesComments}">
+                                    <a th:if="${page} == ${currentPageComments}" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${page})}" class="active" th:text="${page} + 1">page number</a>
+                                    <a th:unless="${page} == ${currentPageComments}" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${page})}" th:text="${page} + 1">page number</a>
+                                </span>
+                                <a th:if="${currentPageComments} < ${lastPage} and ${totalPagesComments.size()} > 1" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${currentPageComments} + 1)}">&raquo;</a>
+                            </div>
+                        </div>
+                        <!-- Recent comments list -->
+                        <div th:each="comment:${viewAllComments}">
+                            <div th:if="${comment.postid} == ${post.id}" class="card mb-5 w-50">
+                                <div class="card w-100">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <p th:utext=${comment.response}>response</p>
+                                            <p class="small my-0 text-center" th:text="${'commented: ' + comment.postingtime}">time</p>
+                                            <strong><p class="h6 my-0 text-right" th:text="${'by: ' + comment.useralias}">alias</p></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Page -->
+                        <div class="paginationleft">
+                            <div th:unless="${totalPagesCommentsSize} == 0" class="pagination">
+                                <a th:if="${currentPageComments} > 0" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${currentPageComments} - 1)}">&laquo;</a>
+                                <span th:each="page:${totalPagesComments}">
+                                    <a th:if="${page} == ${currentPageComments}" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${page})}" class="active" th:text="${page} + 1">page number</a>
+                                    <a th:unless="${page} == ${currentPageComments}" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${page})}" th:text="${page} + 1">page number</a>
+                                </span>
+                                <a th:if="${currentPageComments} < ${lastPage} and ${totalPagesComments.size()} > 1" th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id},showpagecomments=${currentPageComments} + 1)}">&raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Comments page contents -->
+
+        <!-- Footer -->
+        <div th:replace="fragments/layout_footer :: footer"></div>
+        <!-- /Footer -->
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- JQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+        <!-- Summernote JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script th:src="@{/javascript/code.js}" defer></script>
+
+    </body>
+</html>

@@ -1,0 +1,228 @@
+/*Links*/
+a:focus, a:hover, a:visited {
+    text-decoration: none;
+}
+
+/*Body*/
+body, html {
+    background-color: #fefeff;
+    overflow-x: hidden;
+}
+
+/*Classes*/
+.alignright {
+    align-content: flex-end;
+}
+
+.bigbox {
+    max-width: 75em;
+    min-width: 30em;
+}
+
+.bigbox2 {
+    max-width: 25em;
+    min-width: 10em;
+}
+
+.bigbox3 {
+    height: 10em;
+    max-width: 25em;
+}
+
+.blocks {
+    background-image: url("/media/empSiteBackground_blocks.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    min-width: 100vw;
+}
+
+.blueish {
+    color: #2d90ff;
+}
+
+.blueishbg {
+    background-color: #2d90ff;
+}
+
+.blueishicon {
+    color: #2d90ff;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.darkblue {
+    color: #012854;
+}
+
+.darkbluebg {
+    background-color: #012854;
+}
+
+.darkish {
+    color: #444444;
+}
+
+.darkishicon {
+    color: #444444;
+}
+
+.editbutton {
+    min-width: 13em;
+}
+
+.greyish {
+    color: #bbbbbb;
+}
+
+.greyishbg {
+    background-color: #bbbbbb;
+}
+
+.greyishicon {
+    color: #bbbbbb;
+}
+
+.greyishrow {
+    background-color: #bbbbbb;
+    min-height: 1.3em;
+    width: 100%;
+}
+
+.overflowing {
+    max-height: 15em;
+    overflow-y: scroll;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #ff0067;
+    color: white;
+    border: 1px solid #012854;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+.paginationcenter {
+    text-align: center;
+    margin-top: 4em;
+    margin-bottom: 2em;
+}
+
+.paginationleft {
+    text-align: left;
+    margin-top: 4em;
+    margin-bottom: 2em;
+}
+
+.pinkish {
+    color: #ff0067;
+}
+
+.pinkishbg {
+    background-color: #ff0067;
+}
+
+.pinkishrow {
+    background-color: #ff0067;
+    min-height: 1.3em;
+    width: 100%;
+}
+
+.rounded-circle {
+    max-height: 300px;
+    max-width: 300px;
+}
+
+.smallbox {
+    max-width: 15em;
+}
+
+.smallimage {
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.toggleConnections[aria-expanded=false] .text-expanded {
+    display: none;
+}
+
+.toggleConnections[aria-expanded=true] .text-collapsed {
+    display: none;
+}
+
+.toggleUploads[aria-expanded=false] .text-expanded {
+    display: none;
+}
+
+.toggleUploads[aria-expanded=true] .text-collapsed {
+    display: none;
+}
+
+.toggleUseralias[aria-expanded=false] .text-expanded {
+    display: none;
+}
+
+.toggleUseralias[aria-expanded=true] .text-collapsed {
+    display: none;
+}
+
+.verticalrulewhite {
+    border-left: 1px solid #ffffff;
+}
+
+.verticalrulewhite2 {
+    position: absolute;
+    border-left: 1px solid #ffffff;
+    height: 48px;
+    top: 0px;
+    left: 54px;
+}
+
+.welcometextbutton {
+    padding: 5vh 2vw 5vh 2vw;
+}
+.whiteicon {
+    color: #ffffff;
+}
+
+.whiteish {
+    color: #fefeff;
+}
+
+.yellowish {
+    color: #ffd722;
+}
+
+.yellowishbg {
+    background-color: #ffd722;
+}
+
+.yellowishicon {
+    color: #ffd722;
+}
+
+/*Id's*/
+#draggableRight .dragdropTitleRight {
+    cursor: move;
+}
+
+#sortable li {
+    list-style-type: none;
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Home Visiting</title>
+    </head>
+    <body>
+
+        <!-- Home page visiting -->
+        <div th:fragment="homevisiting">
+            <div class="container-fluid">
+                <div class="row my-5">
+                    <!-- Home page title -->
+                    <div class="col-6">
+                        <h3 class="text-center darkblue">
+                            <i class="fas fa-globe yellowishicon"></i><strong class="ml-4 yellowish"><span th:text="${visitingaccount.useralias}">Useralias</span>'s Home Page</strong>
+                        </h3>
+                    </div>
+                    <div class="col-6 pr-5 text-right">
+                        <!-- Send connection request button -->
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Visiting/{visitingalias}/AddConnection(useralias=${account.useralias},visitingalias=${visitingaccount.useralias})}" method="POST">
+                            <button name="addConnectionButton" th:if="${requestSent} == false and ${requestReceived} == false" type="submit" class="btn btn-sm yellowishbg editbutton">Add Connection<i class="fas fa-user-plus ml-2"></i></button>
+                            <button th:if="${requestSent} == true" type="submit" class="btn btn-sm yellowishbg disabled editbutton">Request Sent<i class="fas fa-user-clock ml-2"></i></button>
+                            <button th:if="${requestReceived} == true" type="submit" class="btn btn-sm yellowishbg disabled editbutton">Request Received<i class="fas fa-user-clock ml-2"></i></button>
+                        </form>
+                        <!-- Cancel connection request button -->
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Connections/{visitingalias}/Cancel(useralias=${account.useralias},visitingalias=${visitingaccount.useralias})}" method="POST">
+                            <button th:if="${requestSent} == true" type="submit" class="btn btn-sm btn-dark editbutton greyish">Cancel<i class="fas fa-undo ml-2 greyishicon"></i></button>
+                        </form>
+                        <!-- Accept connection request button -->
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Connections/{visitingalias}/Accept(useralias=${account.useralias},visitingalias=${visitingaccount.useralias})}" method="POST">
+                            <button name="acceptConnectionButton" th:if="${requestSent} == false and ${requestReceived} == true" type="submit" class="btn btn-sm yellowishbg editbutton">Accept<i class="fas fa-user-check ml-2"></i></button>
+                        </form>
+                        <!-- Reject connection request button -->
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Connections/{visitingalias}/Reject(useralias=${account.useralias},visitingalias=${visitingaccount.useralias})}" method="POST">
+                            <button name="rejectConnectionButton" th:if="${requestSent} == false and ${requestReceived} == true" type="submit" class="btn btn-sm yellowishbg editbutton">Reject<i class="fas fa-user-times ml-2"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Contents -->
+                <div class="row">
+                    <!-- Left column -->
+                    <div class="col-xl mx-5 w-75">
+                        <!-- User picture -->
+                        <div class="card mb-5">
+                            <div><h5 class="py-2 text-center darkbluebg yellowish"><i class="fas fa-user mr-3 yellowishicon"></i><strong th:text="${visitingaccount.useralias}">Useralias</strong></h5></div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col">
+                                        <!-- Stock profile picture -->
+                                        <div th:if="${submittedProfilePicture} == false">
+                                            <div th:if="${visitingProfilePicture} == 'male'">
+                                                <img src="" th:src="@{/media/profilePicture_default_male.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            </div>
+                                            <div th:if="${visitingProfilePicture} == 'female'">
+                                                <img src="" th:src="@{/media/profilePicture_default_female.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            </div>
+                                            <div th:if="${visitingProfilePicture} == 'neutral'">
+                                                <img src="" th:src="@{/media/profilePicture_default_neutral.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            </div>
+                                            <!-- Real name -->
+                                            <br/>
+                                            <h5 class="mt-3 text-center text-dark"><strong th:text="${visitingaccount.realname}">Real name</strong></h5>
+                                        </div>
+                                        <div th:if="${submittedProfilePicture} == true">
+                                            <img src="" th:src="@{/EmployeeSearch/Users/{useralias}/LoadedProfilePicture/{loadedProfilePictureId}(useralias=${account.useralias},loadedProfilePictureId=${loadedProfilePicture.id})}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            <!-- Real name -->
+                                            <br/>
+                                            <h5 class="mt-3 text-center text-dark"><strong th:text="${visitingaccount.realname}">Real name</strong></h5>
+                                        </div>
+                                    </div>
+                                    <!-- Loaded profile picture -->
+                                    <div class="col">
+                                        <p><i class="fas fa-quote-left mr-1"></i>Introduction of myself and about my profile</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                            <!-- Ability tab -->
+                            <li class="nav-item">
+                                <a class="nav-link darkbluebg greyish active" id="proficiency-tab" data-toggle="tab" href="#proficiency" role="tab" aria-controls="proficiency"
+                                   aria-selected="true">Proficiency<i class="fas fa-user-tie ml-3 greyishicon"></i></a>
+                            </li>
+                            <!-- Education tab -->
+                            <li class="nav-item">
+                                <a class="nav-link darkbluebg greyish" id="education-tab" data-toggle="tab" href="#education" role="tab" aria-controls="education"
+                                   aria-selected="false">Education<i class="fas fa-graduation-cap ml-3 greyishicon"></i></a>
+                            </li>
+                            <!-- Work history tab -->
+                            <li class="nav-item">
+                                <a class="nav-link darkbluebg greyish" id="workHistory-tab" data-toggle="tab" href="#workHistory" role="tab" aria-controls="workHistory"
+                                   aria-selected="false">Work History<i class="fas fa-briefcase ml-3 greyishicon"></i></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content py-5" id="profileTabsContent">
+                            <!-- Abilities -->
+                            <div class="tab-pane fade show active" id="proficiency" role="tabpanel" aria-labelledby="proficiency-tab">
+                                <!-- First abilities list -->
+                                <div th:if="${!viewFirstAbilities.empty}" th:each="ability:${viewFirstAbilities}">
+                                    <div class="card my-5 w-100 border-primary">
+                                        <div class="card-body">
+                                            <p class="card-text mb-0 text-center" th:utext="${ability.abilitytext}">ability text</p>
+                                            <p class="mt-0 mb-2 blueish">Praises: <span th:text="${ability.praises}">praises</span></p>
+                                            <!-- Add praise -->
+                                            <div th:each="praise:${viewAllPraises}">
+                                                <div th:if="${praise.ability} == ${ability} and ${praise.useralias} == ${account.useralias}">
+                                                    <p class="h5 pinkish">Already praised!</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-left" role="button" data-toggle="collapse" data-target="#collapsePraiseHomeVisitingFirst">
+                                                <button name="addPraiseButton" class="btn btn-sm h5 my-3"><i class="fas fa-hand-point-up mr-3 waves-effect waves-light"></i>Add Praise</button>
+                                            </div>
+                                            <div class="collapse hide" id="collapsePraiseHomeVisitingFirst">
+                                                <form th:action="@{/EmployeeSearch/Users/{useralias}/Abilities/{abilityid}/Praise/{visitingalias}(useralias=${account.useralias},abilityid=${ability.id},visitingalias=${visitingaccount.useralias})}" 
+                                                      th:object="${praise}" enctype="multipart/form-data" method="POST">
+                                                    <textarea name="praisetext" th:unless="${#fields.hasErrors('praisetext')} and ${abilityid} != ${ability.id}" class="summernote" th:field="*{praisetext}">new praise text</textarea>
+                                                    <small th:if="${#fields.hasErrors('praisetext')} and ${abilityid} == ${ability.id}"
+                                                           th:errors="*{praisetext}" class="text-danger">praise text error message</small><br/>
+                                                    <button name="submitNewPraise" th:unless="${#fields.hasErrors('praisetext')} and ${abilityid} != ${ability.id}" class="btn btn-sm" type="submit"><i class="fas fa-hands mr-3 waves-effect waves-light"></i>Praise</button>
+                                                </form>
+                                            </div>
+                                            <!-- Praises list -->
+                                            <div th:each="praise:${viewAllPraises}">
+                                                <div th:if="${ability} == ${praise.ability}" class="container-fluid">
+                                                    <div class="row my-3">
+                                                        <div class="col text-left">
+                                                            <strong th:text="${praise.useralias}">alias</strong>:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row my-3 overflow-auto">
+                                                        <div class="col text-left">
+                                                            <span th:utext="${praise.praisetext}">praise</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:if="${viewFirstAbilities.empty}">
+                                    <p>No Abilities added.</p>
+                                </div>
+                                <!-- Last abilities list -->
+                                <div th:if="${!viewLastAbilities.empty}" class="text-left" role="button" data-toggle="collapse" data-target="#collapseLastAbilitiesHomeVisiting">
+                                    <button class="btn btn-sm h5 my-3"><i class="fas fa-hand-point-up mr-3 waves-effect waves-light"></i>Show More Abilities</button>
+                                </div>
+                                <div th:if="${!viewLastAbilities.empty}" class="collapse hide" id="collapseLastAbilitiesHomeVisiting">
+                                    <div th:each="ability:${viewLastAbilities}">
+                                        <div class="card my-5 w-100">
+                                            <div class="card-body">
+                                                <p class="card-text mb-0 text-center" th:utext="${ability.abilitytext}">ability text</p>
+                                                <p class="mt-0 mb-2 blueish">Praises: <span th:text="${ability.praises}">praises</span></p>
+                                                <!-- Add praise -->
+                                                <div th:each="praise:${viewAllPraises}">
+                                                    <div th:if="${praise.ability} == ${ability} and ${praise.useralias} == ${account.useralias}">
+                                                        <p class="h5 pinkish">Already praised!</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-left" role="button" data-toggle="collapse" data-target="#collapsePraiseHomeVisitingLast">
+                                                    <button class="btn btn-sm h5 my-3"><i class="fas fa-hand-point-up mr-3 waves-effect waves-light"></i>Add Praise</button>
+                                                </div>
+                                                <div class="collapse hide" id="collapsePraiseHomeVisitingLast">
+                                                    <form th:action="@{/EmployeeSearch/Users/{useralias}/Abilities/{abilityid}/Praise/{visitingalias}(useralias=${account.useralias},abilityid=${ability.id},visitingalias=${visitingaccount.useralias})}" 
+                                                          th:object="${praise}" enctype="multipart/form-data" method="POST">
+                                                        <textarea th:unless="${#fields.hasErrors('praisetext')} and ${abilityid} != ${ability.id}" class="summernote" th:field="*{praisetext}" name="praisetext">new praise text</textarea>
+                                                        <small th:if="${#fields.hasErrors('praisetext')} and ${abilityid} == ${ability.id}"
+                                                               th:errors="*{praisetext}" class="text-danger">praise text error message</small><br/>
+                                                        <button th:unless="${#fields.hasErrors('praisetext')} and ${abilityid} != ${ability.id}" class="btn btn-sm" name="submitNewPraise" type="submit"><i class="fas fa-hands mr-3 waves-effect waves-light"></i>Praise</button>
+                                                    </form>
+                                                </div>
+                                                <!-- Praises list -->
+                                                <div th:each="praise:${viewAllPraises}">
+                                                    <div th:if="${ability} == ${praise.ability}" class="container-fluid">
+                                                        <div class="row my-3">
+                                                            <div class="col text-left">
+                                                                <strong th:text="${praise.useralias}">alias</strong>:
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-3 overflow-auto">
+                                                            <div class="col text-left">
+                                                                <span th:utext="${praise.praisetext}">praise</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Education -->
+                            <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+                                <!-- Education text -->
+                                <p>Education Text</p>
+                            </div>
+                            <!-- Work history -->
+                            <div class="tab-pane fade" id="workHistory" role="tabpanel" aria-labelledby="workHistory-tab">
+                                <!-- Work History text -->
+                                <p>Work History Text</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right column -->
+                    <div class="col-xl mx-5 w-75">
+                        <!-- Connections -->
+                        <div class="card mb-5">
+                            <h5 class="px-4 py-2 text-left darkbluebg greyish">
+                                <strong class="mr-5"><i class="fas fa-user mr-3 greyishicon"></i>Connections (<span th:text="${connectionEstablishedVisitedSize}">amount</span>)</strong>
+                            </h5>
+                            <div class="container overflow-auto">
+                                <div th:each="connection:${connectionEstablishedVisited}">
+                                    <div class="row">
+                                        <div class="col ml-3">
+                                            <a th:href="@{'/EmployeeSearch/Users/' + ${account.useralias} + '/Visiting/' + ${connection[0]}}"><span class="text-dark"><strong th:text="${connection[1]}">Real name</strong></span></a>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Home page visiting -->
+
+    </body>
+</html>

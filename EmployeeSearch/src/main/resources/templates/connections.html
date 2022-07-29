@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Connections - Employee Search</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet"/>
+        <!-- Summernote CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:replace="fragments/layout_navbar_loggedin :: navbar"></div>
+        <!-- /Navbar -->
+
+        <!-- Connections page contents -->
+        <div class="container-fluid">
+            <div class="row mx-5 mt-5 px-5 pt-5 text-center">
+                <!-- Connections title -->
+                <div class="col">
+                    <h3 class="text-center darkblue">
+                        <i class="fas fa-user"></i><strong class="ml-4">Connections</strong>
+                    </h3>
+                </div>
+            </div>
+            <div class="row mb-5 mx-5 px-5 py-5 text-center">
+                <!-- Requests received -->
+                <div class="col-md-4">
+                    <!-- Received title -->
+                    <p th:if="${connectionRequestsReceivedSize} == ''" class="h5 my-5 darkblue">Requests Received From</p>
+                    <p th:unless="${connectionRequestsReceivedSize} == ''" class="h5 my-5 yellowish">Requests Received From</p>
+                    <!-- Received requests -->
+                    <div th:unless="${requestsReceived.empty}">
+                        <div th:each="visitorinfo:${requestsReceived}" class="mb-2">
+                            <a th:href="@{'/EmployeeSearch/Users/' + ${account.useralias} + '/Visiting/' + ${visitorinfo[0]}}"><span th:text="${visitorinfo[1]}">result</span></a>
+                            <div>
+                                <p class="small">at <span th:text="${visitorinfo[2]}">date</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${requestsReceived.empty}">
+                        <span>No Requests Received.</span>
+                    </div>
+                </div>
+                <!-- Requests sent -->
+                <div class="col-md-4">
+                    <!-- Sent title -->
+                    <p class="h5 my-5 darkblue">Requests Sent To</p>
+                    <!-- Sent requests -->
+                    <div th:unless="${requestsSent.empty}">
+                        <div th:each="visitorinfo:${requestsSent}" class="mb-2">
+                            <a th:href="@{'/EmployeeSearch/Users/' + ${account.useralias} + '/Visiting/' + ${visitorinfo[0]}}"><span th:text="${visitorinfo[1]}">result</span></a>
+                            <div>
+                                <p class="small">at <span th:text="${visitorinfo[2]}">date</span></p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div th:if="${requestsSent.empty}">
+                        <span>No Requests Sent.</span>
+                    </div>
+                </div>
+                <!-- Connections established -->
+                <div class="col-md-4">
+                    <!-- Established title -->
+                    <p class="h5 my-5 darkblue">Established Connections</p>
+                    <!-- Established connections -->
+                    <div th:unless="${connectionEstablished.empty}">
+                        <div th:each="visitorinfo:${connectionEstablished}" class="mb-2">
+                            <a th:href="@{'/EmployeeSearch/Users/' + ${account.useralias} + '/Visiting/' + ${visitorinfo[0]}}"><span th:text="${visitorinfo[1]}">result</span></a>
+                        </div>
+                    </div>
+                    <div th:if="${connectionEstablished.empty}">
+                        <span>No Connections Established.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Connections page contents -->
+
+        <!-- Footer -->
+        <div th:replace="fragments/layout_footer :: footer"></div>
+        <!-- /Footer -->
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- JQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+        <!-- Summernote JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script th:src="@{/javascript/code.js}" defer></script>
+
+    </body>
+</html>

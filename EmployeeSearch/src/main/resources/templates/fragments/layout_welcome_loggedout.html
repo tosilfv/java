@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Welcome Logged Out</title>
+    </head>
+    <body>
+
+        <!-- Welcome page content -->
+        <div th:fragment="welcome">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Carousel and Bottom curve -->
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 p-0">
+                        <!-- Carousel -->
+                        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselIndicators" data-slide-to="2"></li>
+                                <li data-target="#carouselIndicators" data-slide-to="3"></li>
+                                <li data-target="#carouselIndicators" data-slide-to="4"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="" th:src="@{/media/reviewer_woman1.png}" alt="First slide"/>
+                                    <div class="carousel-caption d-sm-block">
+                                        <h5>Registered user Clara S.</h5>
+                                        <p>"I use it to catch up on my schoolmates' resumes."</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="" th:src="@{/media/reviewer_man1.png}" alt="Second slide"/>
+                                    <div class="carousel-caption d-sm-block">
+                                        <h5>Registered user Pete A.</h5>
+                                        <p>"... and I only needed one service and this is it."</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="" th:src="@{/media/reviewer_woman2.png}" alt="Third slide"/>
+                                    <div class="carousel-caption d-sm-block">
+                                        <h5>Registered user Anna K.</h5>
+                                        <p>"As a recruiter, I'd give it 9/10."</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="" th:src="@{/media/reviewer_man2.png}" alt="Fourth slide"/>
+                                    <div class="carousel-caption d-sm-block">
+                                        <h5>Registered user Eric H.</h5>
+                                        <p>"Thanks to this, I got hired!"</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="" th:src="@{/media/reviewer_anonymous.png}" alt="Fifth slide"/>
+                                    <div class="carousel-caption d-sm-block">
+                                        <h5>Anonymous</h5>
+                                        <p>"I'm here for business only."</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" id="carouselPrev" href="#carouselIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" id="carouselNext" href="#carouselIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!-- Bottom curve -->
+                        <div>
+                            <img class="col p-0" src="" th:src="@{/media/curveBottom_welcome_darkblue2.png}" alt=""/>
+                        </div>
+                    </div>
+                    <!-- /Carousel and Bottom curve -->
+                    <!-- Big logo -->
+                    <div class="col-sm-7 col-md-6 col-lg-6 col-xl-6 mt-5 py-5 text-center">
+                        <a th:href="@{/EmployeeSearch/Login}">
+                            <img class="img-fluid biglogo" name="welcomeBigLogo" src="/media/empSiteLogo_in.png" 
+                                 onmouseover="this.src='/media/empSiteLogo_out.png';"
+                                 onmouseout="this.src='/media/empSiteLogo_in.png';" alt="Posts"/>
+                        </a>
+                    </div>
+                    <!-- Welcome text button -->
+                    <div class="col-sm-0 col-md-0 col-lg-0 col-xl-3 p-3">
+                        <a th:href="@{/EmployeeSearch/Register}" role="button" 
+                           class="btn blue-gradient text-center text-capitalize waves-effect welcometextbutton">
+                            <span>As a Registered User you will get your own Home Page 
+                                that you can modify to your liking and show others 
+                                your abilities, skill level, CV or other profile 
+                                documents, profile avatar and more. 
+                                You can even add other employees to your contacts and 
+                                see and like their posts and comment them. So, what 
+                                are you waiting for? Register Today, it's completely 
+                                <strong>FREE!</strong></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Welcome page content -->
+
+    </body>
+</html>

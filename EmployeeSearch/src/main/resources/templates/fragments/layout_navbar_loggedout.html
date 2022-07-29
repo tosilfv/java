@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Navbar Logged Out</title>
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:fragment="navbar">
+            <nav class="navbar navbar-dark navbar-expand-xl darkbluebg">
+                <!-- Welcome logo -->
+                <div class="row">    
+                    <header class="page-header">
+                        <div>
+                            <h1 class="ml-2 p-3 text-light">
+                                <img class="ml-2" src="" th:src="@{/media/empSiteLogo_in_small.png}" 
+                                     alt="empSiteLogo_in_small"/>
+                                <span class="pinkish">Employee</span>Search
+                            </h1>
+                        </div>
+                    </header>
+                </div>
+                <!-- Hello text -->
+                <div>
+                    <i th:text="${hellouseralias}" class="navbar-text mx-5 text-light">hello useralias</i>
+                </div>
+                <!-- Navbar toggler -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Navbar buttons and links -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <!-- User logo -->
+                        <li class="nav-item">
+                            <a th:href="@{/EmployeeSearch/Users}" class="nav-link waves-effect waves-light">
+                                <i class="fas fa-user-circle whiteicon"></i>
+                            </a>
+                        </li>
+                        <!-- Dropdown list -->
+                        <li class="nav-item mr-5 dropdown">
+                            <a th:text="${loggedinuser} + ' (Logged out) '" 
+                               class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">user logged out</a>
+                            <div class="dropdown-menu bg-light" aria-labelledby="navbarDropdownMenuLink">
+                                <a th:href="@{/EmployeeSearch/Login}" class="btn dropdown-item mb-1 mt-0 darkbluebg">
+                                    <i class="fas fa-sign-in-alt mr-4 greyishicon"></i><small class="ml-1 greyish">Login</small></a>
+                                <a th:href="@{/EmployeeSearch/Register}" class="btn dropdown-item my-0 darkbluebg">
+                                    <i class="fas fa-user mr-4 greyishicon"></i><small class="ml-1 greyish">Register</small></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- Login and Register -->
+            <div class="row">
+                <div class="col d-flex justify-content-end darkbluebg">
+                    <!-- Login -->
+                    <a th:href="@{/EmployeeSearch/Login}" role="button" class="btn btn-outline-light">Login</a>
+                    <!-- Register -->
+                    <a th:href="@{/EmployeeSearch/Register}" role="button" class="btn btn-dark">Sign up</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Navbar -->
+
+    </body>
+</html>

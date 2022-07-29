@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Help - Employee Search</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet"/>
+        <!-- Summernote CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:replace="fragments/layout_navbar_loggedin :: navbar"></div>
+        <!-- /Navbar -->
+
+        <!-- Greyish row -->
+        <div th:replace="fragments/layout_misc_elements :: greyishrowelement"></div>
+        <!-- /Greyish row -->
+
+        <!-- Help page contents -->
+        <div class="container-fluid my-5">
+            <!-- Help header -->
+            <div class="container">
+                <h5 class="card-header mb-5 py-4 text-center whiteish greyishbg">
+                    <i class="fas fa-question-circle"></i><strong class="ml-4">HELP</strong>
+                </h5>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Alias -->
+            <div class="container">
+                <!-- Alias title -->
+                <h4>Alias</h4>
+                <!-- Change alias help text -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Change alias title -->
+                        <h5 id="changeAlias" class="mt-2"><strong>Change Alias</strong></h5>
+                        <!-- Change alias text -->
+                        <p class="mt-2">Alias cannot be changed after 
+                            registration. If you want a new alias, you could 
+                            try to create a new profile with a new alias if it 
+                            is not already taken.</p>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Password -->
+            <div class="container">
+                <!-- Password title -->
+                <h4>Password</h4>
+                <!-- Forgotten password help text -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Forgotten password title -->
+                        <h5 id="forgottenPassword" class="mt-2"><strong>Forgotten password</strong></h5>
+                        <!-- Forgotten password text -->
+                        <p class="mt-2">If you forget your password, there 
+                            is no way of recovering it through this Site. 
+                            The Site does not provide this service.</p>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Profile -->
+            <div class="container">
+                <!-- Profile title -->
+                <h4>Profile</h4>
+                <!-- Delete profile picture help text -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Delete profile picture title -->
+                        <h5 id="deleteProfilepicture" class="mt-2"><strong>Delete Profile Picture</strong></h5>
+                        <!-- Delete profile picture text -->
+                        <p class="mt-2">Deleting your Profile Picture means 
+                            that you cannot recover your previous Profile 
+                            Picture anymore, with no exceptions. To delete the 
+                            current Profile Picture, stock or loaded, just 
+                            select Neutral from the Select Stock Profile 
+                            Picture: dropdown Menu on the Preferences Page and 
+                            click the corresponding SELECT button. This action 
+                            will delete your previous loaded Profile Picture 
+                            from the Site's database.
+                    </div>
+                </div>
+                <!-- Delete profile help text -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Delete profile title -->
+                        <h5 id="deleteProfile" class="mt-2"><strong>Delete Profile</strong></h5>
+                        <!-- Delete profile text -->
+                        <p class="mt-2">Deleting your Profile means that you 
+                            cannot log in to your Profile anymore and that 
+                            your Profile and all information that was in it 
+                            on this Site is removed from the Site's 
+                            database. If you wish to learn more about the 
+                            Site's privacy policy, see 
+                            <a id="toSignupPage" th:href="@{/EmployeeSearch/Users/{useralias}/TermsOfService(useralias=${account.useralias})}">terms of service</a> 
+                            - Privacy policy.</p>
+                    </div>
+                </div>
+                <!-- Hide profile help text -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Hide profile title -->
+                        <h5 id="hideProfile" class="mt-2"><strong>Hide Profile</strong></h5>
+                        <!-- Hide profile text -->
+                        <p class="mt-2">Hiding your Profile means that 
+                            no one else can see your Profile in this Site 
+                            except you. This action does not hide any posts, 
+                            comments, likes etc. that you have made. It 
+                            hides only your Home Page and all the contents 
+                            that are in it.</p>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+        </div>
+        <!-- /Preferences page contents -->
+
+        <!-- Footer -->
+        <div th:replace="fragments/layout_footer :: footer"></div>
+        <!-- /Footer -->
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- JQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+        <!-- Summernote JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script th:src="@{/javascript/code.js}" defer></script>
+
+    </body>
+</html>

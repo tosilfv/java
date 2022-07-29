@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Preferences - Employee Search</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet"/>
+        <!-- Summernote CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:replace="fragments/layout_navbar_loggedin :: navbar"></div>
+        <!-- /Navbar -->
+
+        <!-- Greyish row -->
+        <div th:replace="fragments/layout_misc_elements :: greyishrowelement"></div>
+        <!-- /Greyish row -->
+
+        <!-- Preferences page contents -->
+        <div class="container-fluid my-5">
+            <!-- Preferences header -->
+            <div class="container">
+                <h5 class="card-header mb-5 py-4 text-center whiteish greyishbg">
+                    <i class="fas fa-cog"></i><strong class="ml-4">PREFERENCES</strong>
+                </h5>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Change password -->
+            <div class="container">
+                <!-- Change password title -->
+                <h4>Change Password</h4>
+                <!-- Change password form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form class="text-center">
+                            <!-- Old password -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-lock prefix" aria-hidden="true"></i>
+                                <input type="password" name="oldPassword" id="ChangePasswordFormOldPassword" class="form-control"/>
+                                <label for="ChangePasswordFormOldPassword">Old Password</label>
+                            </div>
+                            <!-- New password -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-lock prefix" aria-hidden="true"></i>
+                                <input type="password" name="newPassword" id="ChangePasswordFormNewPassword" class="form-control"/>
+                                <label for="ChangePasswordFormNewPassword">New Password</label>
+                            </div>
+                            <!-- Change password button -->
+                            <div class="row justify-content-left">
+                                <button class="btn btn-sm btn-dark editbutton greyish" name="submitNewPassword" type="submit" id="changePasswordButton">Change Password<i class="fas fa-lock ml-2"></i></button>
+                            </div>
+                        </form>
+                        <!-- Cannot remember password link -->
+                        <div class="row">
+                            <div class="text-center">
+                                <p class="ml-2 mt-2">What if I forget my Password? See Password on the 
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Help#forgottenPassword(useralias=${account.useralias})}">Help page.</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Change picture -->
+            <div class="container">
+                <!-- Change picture title -->
+                <h4 id="changePicture">Change Picture</h4>
+                <!-- Change picture form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Select stock profile picture -->
+                        <form class="text-center" th:action="@{/EmployeeSearch/Users/{useralias}/ProfilePictureStock(useralias=${account.useralias})}" method="POST">
+                            <!-- Current picture -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <p><i class="fas fa-portrait fa-2x mr-5" aria-hidden="true"></i>Current Profile Picture:</p>
+                                <div th:if="${submittedProfilePicture} == false">
+                                    <div th:if="${account.stockProfilePicture} == 'male'">
+                                        <img src="" th:src="@{/media/profilePicture_default_male.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                    </div>
+                                    <div th:if="${account.stockProfilePicture} == 'female'">
+                                        <img src="" th:src="@{/media/profilePicture_default_female.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                    </div>
+                                    <div th:if="${account.stockProfilePicture} == 'neutral'">
+                                        <img src="" th:src="@{/media/profilePicture_default_neutral.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                    </div>
+                                </div>
+                                <div th:if="${submittedProfilePicture} == true">
+                                    <img src="" th:src="@{/EmployeeSearch/Users/{useralias}/LoadedProfilePicture/{loadedProfilePictureId}(useralias=${account.useralias},loadedProfilePictureId=${loadedProfilePicture.id})}" alt="No Image" class="img-fluid rounded-circle"/>
+                                </div>
+                            </div>
+                            <!-- Stock profile picture -->
+                            <div>
+                                <p class="h5 text-center">Select Stock Profile Picture:</p>
+                            </div>
+                            <div class="my-4">
+                                <select id="profilePictureStockSelector" name="profilePictureStock" class="browser-default custom-select">
+                                    <option id="profilePictureStockMale" value="male" selected>Male</option>
+                                    <option id="profilePictureStockFemale" value="female">Female</option>
+                                    <option id="profilePictureStockNeutral" value="neutral">Neutral</option>
+                                </select>
+                            </div>
+                            <!-- Select picture button -->
+                            <div class="row justify-content-left">
+                                <button id="selectStockProfilePictureButton" class="btn btn-sm btn-dark editbutton greyish" name="submitNewStockProfilePicture" type="submit">Select<i class="fas fa-portrait ml-2"></i></button>
+                            </div>
+                        </form>
+                        <!-- Load picture -->
+                        <div class="my-4">
+                            <p class="h5 text-center">Load Profile Picture (MAX SIZE 2MB):</p>
+                        </div>
+                        <form class="text-center" th:action="@{/EmployeeSearch/Users/{useralias}/ProfilePictureLoad(useralias=${account.useralias})}" enctype="multipart/form-data" method="POST">
+                            <input type="file" name="profilePictureLoaded"/>
+                            <!-- Load picture button -->
+                            <div class="row justify-content-left">
+                                <button id="loadProfilePictureButton" class="btn btn-sm btn-dark my-4 editbutton greyish" name="submitNewLoadPicture" type="submit">Load<i class="fas fa-portrait ml-2"></i></button>
+                            </div>
+                        </form>
+                        <!-- Delete profile picture link -->
+                        <div class="row">
+                            <div class="text-center">
+                                <p class="ml-2 mt-2">Want to delete Profile Picture? See Delete Profile Picture on the 
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Help#deleteProfilepicture(useralias=${account.useralias})}">Help page.</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Change name -->
+            <div class="container">
+                <!-- Change name title -->
+                <h4 id="changeName">Change Name</h4>
+                <!-- Change name form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form class="text-center">
+                            <!-- Old name -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-user-edit prefix" aria-hidden="true"></i>
+                                <input type="text" name="oldName" id="ChangeNameFormOldName" class="form-control"/>
+                                <label for="ChangeNameFormOldName">Old Name</label>
+                            </div>
+                            <!-- New name -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-user-edit prefix" aria-hidden="true"></i>
+                                <input type="text" name="newName" id="ChangeNameFormNewName" class="form-control"/>
+                                <label for="ChangeNameFormNewName">New Name</label>
+                            </div>
+                            <!-- Change name button -->
+                            <div class="row justify-content-left">
+                                <button class="btn btn-sm btn-dark editbutton greyish" name="submitNewName" type="submit" id="changeNameButton">Change Name<i class="fas fa-user-edit ml-2"></i></button>
+                            </div>
+                        </form>
+                        <!-- Change useralias link -->
+                        <div class="row">
+                            <div class="text-center">
+                                <p class="ml-2 mt-2">Want to change Alias? See Alias on the 
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Help#changeAlias(useralias=${account.useralias})}">Help page.</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Add ability -->
+            <div class="container">
+                <!-- Add ability title -->
+                <h4 id="addAbility">Add Ability<i class="fas fa-user-tie ml-3"></i></h4>
+                <!-- Add ability form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <!-- Add ability box -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="container-fluid bigbox">
+                                    <form th:action="@{/EmployeeSearch/Users/{useralias}/Abilities(useralias=${account.useralias})}" 
+                                          th:object="${ability}" enctype="multipart/form-data" method="POST">
+                                        <textarea id="addAbilityTextBox" class="summernote" th:field="*{abilitytext}" name="abilitytext">new ability text</textarea>
+                                        <small th:if="${#fields.hasErrors('abilitytext')}"
+                                               th:errors="*{abilitytext}" class="text-danger">ability text error message</small><br/>
+                                        <button id="addAbilityButton" class="btn btn-sm btn-dark editbutton greyish" name="submitNewAbility" type="submit">Add<i class="fas fa-user-tie ml-2"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Edit background -->
+            <div class="container">
+                <!-- Edit background title -->
+                <h4 id="editBackground">Edit Background</h4>
+                <!-- Edit background form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form>
+                            <!-- Current background -->
+                            <div class="row">
+                                <div class="md-form input-group input-with-pre-icon ml-1">
+                                    <p><i class="fas fa-history fa-2x mr-5" aria-hidden="true"></i>Current Background</p>
+                                    <!-- Edit background box -->
+                                    <textarea class="summernote"></textarea>
+                                    <!-- Edit background button -->
+                                    <div class="row justify-content-left">
+                                        <button class="btn btn-sm btn-dark ml-3 mt-4 editbutton greyish" name="submitNewBackground" type="submit" id="editBackgroundButton">Save<i class="fas fa-history ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Edit contact information -->
+            <div class="container">
+                <!-- Edit contact information title -->
+                <h4 id="editContactInformation">Edit Contact Information</h4>
+                <!-- Edit contact information form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form>
+                            <!-- Current contact information -->
+                            <div class="row">
+                                <div class="md-form input-group input-with-pre-icon ml-1">
+                                    <p><i class="fas fa-address-card fa-2x mr-5" aria-hidden="true"></i>Current Contact Information</p>
+                                    <!-- Edit contact information box -->
+                                    <textarea class="summernote"></textarea>
+                                    <!-- Edit contact information button -->
+                                    <div class="row justify-content-left">
+                                        <button class="btn btn-sm btn-dark ml-3 mt-4 editbutton greyish" name="submitNewContactInformation" type="submit" id="editContactInformationButton">Save<i class="fas fa-address-card ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Edit education -->
+            <div class="container">
+                <!-- Edit education title -->
+                <h4 id="editEducation">Edit Education</h4>
+                <!-- Edit education form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form>
+                            <!-- Current education -->
+                            <div class="row">
+                                <div class="md-form input-group input-with-pre-icon ml-1">
+                                    <p><i class="fas fa-graduation-cap fa-2x mr-5" aria-hidden="true"></i>Current Education</p>
+                                    <!-- Edit education box -->
+                                    <textarea class="summernote"></textarea>
+                                    <!-- Edit education button -->
+                                    <div class="row justify-content-left">
+                                        <button class="btn btn-sm btn-dark ml-3 mt-4 editbutton greyish" name="submitNewEducation" type="submit" id="editEducationButton">Save<i class="fas fa-graduation-cap ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Edit introduction -->
+            <div class="container">
+                <!-- Edit introduction title -->
+                <h4 id="editIntroduction">Edit Introduction</h4>
+                <!-- Edit introduction form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form>
+                            <!-- Current introduction -->
+                            <div class="row">
+                                <div class="md-form input-group input-with-pre-icon ml-1">
+                                    <p><i class="fas fa-quote-left fa-2x mr-5" aria-hidden="true"></i>Current Introduction</p>
+                                    <!-- Edit introduction box -->
+                                    <textarea class="summernote"></textarea>
+                                    <!-- Edit introduction button -->
+                                    <div class="row justify-content-left">
+                                        <button class="btn btn-sm btn-dark ml-3 mt-4 editbutton greyish" name="submitNewIntroduction" type="submit" id="editIntroductionButton">Save<i class="fas fa-quote-left ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Edit work history -->
+            <div class="container">
+                <!-- Edit work history title -->
+                <h4 id="editWorkHistory">Edit Work History</h4>
+                <!-- Edit work history form -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form>
+                            <!-- Current work history -->
+                            <div class="row">
+                                <div class="md-form input-group input-with-pre-icon ml-1">
+                                    <p><i class="fas fa-briefcase fa-2x mr-5" aria-hidden="true"></i>Current Work History</p>
+                                    <!-- Edit work history box -->
+                                    <textarea class="summernote"></textarea>
+                                    <!-- Edit work history button -->
+                                    <div class="row justify-content-left">
+                                        <button class="btn btn-sm btn-dark ml-3 mt-4 editbutton greyish" name="submitNewWorkHistory" type="submit" id="editWorkHistoryButton">Save<i class="fas fa-briefcase ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Hide profile -->
+            <div class="container">
+                <!-- Hide profile title -->
+                <h4><i class="fas fa-user-slash"></i><span class="ml-4">Hide Profile</span></h4>
+                <!-- Hide profile contents -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <div class="row">
+                            <div class="my-5 text-center">
+                                <h5 class="ml-2">Currently your profile is <strong>public.</strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form>
+                            <!-- Hide profile button -->
+                            <div class="row">
+                                <div class="text-center">
+                                    <button class="btn btn-sm btn-dark editbutton greyish" name="submitHideProfile" type="submit" id="hideProfileButton">Hide Profile<i class="fas fa-user-circle ml-2"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Hide profile link -->
+                        <div class="row">
+                            <div class="text-center">
+                                <p class="ml-2 mt-2">Not sure what Hide profile does? See Profile on the 
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Help#hideProfile(useralias=${account.useralias})}">Help page.</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+            <!-- Delete profile button -->
+            <div class="container">
+                <!-- Delete profile title -->
+                <h4><i class="fas fa-skull-crossbones"></i><span class="ml-4">Delete Profile</span></h4>
+                <!-- Delete profile contents -->
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <div class="row">
+                            <div class="my-5 text-center">
+                                <h5 class="ml-2 text-danger"> CAUTION! This action is <span class="font-italic">irreversible!</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-8">
+                        <form  th:action="@{/EmployeeSearch/Users/{useralias}/DeleteProfile(useralias=${account.useralias})}" class="text-center">
+                            <!-- Delete profile button -->
+                            <div class="row">
+                                <div class="text-center">
+                                    <button class="btn btn-sm btn-dark editbutton greyish" name="submitDeleteProfile" type="submit" id="deleteProfileButton">Delete Profile<i class="fas fa-user-circle ml-2"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Delete profile link -->
+                        <div class="row">
+                            <div class="text-center">
+                                <p class="ml-2 mt-2">Not sure what Delete profile does? See Profile on the 
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Help#deleteProfile(useralias=${account.useralias})}">Help page.</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="fragments/layout_misc_elements :: horizontalrule"></div>
+        </div>
+        <!-- /Preferences page contents -->
+
+        <!-- Footer -->
+        <div th:replace="fragments/layout_footer :: footer"></div>
+        <!-- /Footer -->
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- JQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+        <!-- Summernote JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script th:src="@{/javascript/code.js}" defer></script>
+
+    </body>
+</html>

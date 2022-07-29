@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Posts - Employee Search</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet"/>
+        <!-- Summernote CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:replace="fragments/layout_navbar_loggedin :: navbar"></div>
+        <!-- /Navbar -->
+
+        <!-- Posts page contents -->
+        <div class="container-fluid">
+            <div class="row mx-5 mt-5 px-5 pt-5">
+                <!-- Posts title -->
+                <div class="col">
+                    <h3 class="text-center darkblue">
+                        <i class="fas fa-envelope"></i><strong class="ml-4">Posts</strong>
+                    </h3>
+                </div>
+            </div>
+            <!-- New post title and message box -->
+            <div class="row mt-5 py-5">
+                <div class="col">
+                    <div class="container-fluid bigbox">
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias})}" 
+                              th:object="${post}" enctype="multipart/form-data" method="POST">
+                            <p class="h5 mb-4 darkblue"><strong>New Post Title:</strong></p>
+                            <input name="title" type="text" th:field="*{title}" class="container-fluid"/><br/>
+                            <small th:if="${#fields.hasErrors('title')}"
+                                   th:errors="*{title}" class="text-danger">post title error message</small>
+                            <p class="h5 my-4 darkblue"><strong>New Post Message:</strong></p>
+                            <textarea name="message" class="summernote" th:field="*{message}">new post message</textarea>
+                            <small th:if="${#fields.hasErrors('message')}"
+                                   th:errors="*{message}" class="text-danger">post contents error message</small><br/>
+                            <button name="sendPostButton" type="submit" class="btn btn-outline-dark btn-md waves-effect">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Lists of posts -->
+            <div class="row">
+                <!-- Recent posts -->
+                <div class="col-md mb-5">
+                    <div class="container bigbox">
+                        <!-- Recent posts title -->
+                        <div>
+                            <p class="h5 darkblue">Recent Posts:</p>
+                        </div>
+                        <div th:if="${totalPagesRecentSize} == 0" class="my-5 pb-5">
+                            <span class="my-5">No Posts.</span>
+                        </div>
+                        <!-- Page -->
+                        <div class="paginationleft">
+                            <div th:unless="${totalPagesRecentSize} == 0" class="pagination">
+                                <a th:if="${currentPageRecent} > 0" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${currentPageRecent} - 1)}">&laquo;</a>
+                                <span th:each="page:${totalPagesRecent}">
+                                    <a th:if="${page} == ${currentPageRecent}" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${page})}" class="active" th:text="${page} + 1">page number</a>
+                                    <a th:unless="${page} == ${currentPageRecent}" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${page})}" th:text="${page} + 1">page number</a>
+                                </span>
+                                <a th:if="${currentPageRecent} < ${lastPage} and ${totalPagesRecent.size()} > 1" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${currentPageRecent} + 1)}">&raquo;</a>
+                            </div>
+                        </div>
+                        <!-- Recent posts list -->
+                        <div th:each="post:${viewAllPosts}">
+                            <div th:if="${#lists.contains(establishedUseraliases, post.useralias)} or ${account.useralias} == ${post.useralias}" class="card mb-5 w-50">
+                                <div class="card-body">
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Comments/{postid}(useralias=${account.useralias},postid=${post.id})}">
+                                        <p class="card-title h5 py-2 text-left darkbluebg greyish">
+                                            <i class="fas fa-book-reader mx-3 greyishicon"></i>
+                                            <strong name="postTitleLink" class="ml-3" th:text="${#strings.abbreviate(post.title,50)}">post title</strong>
+                                        </p>
+                                        <p class="card-text mb-0 text-center">view</p>
+                                    </a>
+                                    <p class="my-0">Likes: <span th:text="${post.likes}">likes</span></p>
+                                    <p class="small my-0 text-center" th:text="${'posted: ' + post.postingtime}">time</p>
+                                    <p class="h6 my-0 text-right" th:text="${'by: ' + post.useralias}"><strong>alias</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Page -->
+                        <div class="paginationleft">
+                            <div th:unless="${totalPagesRecentSize} == 0" class="pagination">
+                                <a th:if="${currentPageRecent} > 0" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${currentPageRecent} - 1)}">&laquo;</a>
+                                <span th:each="page:${totalPagesRecent}">
+                                    <a th:if="${page} == ${currentPageRecent}" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${page})}" class="active" th:text="${page} + 1">page number</a>
+                                    <a th:unless="${page} == ${currentPageRecent}" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${page})}" th:text="${page} + 1">page number</a>
+                                </span>
+                                <a th:if="${currentPageRecent} < ${lastPage} and ${totalPagesRecent.size()} > 1" th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias},showpagerecent=${currentPageRecent} + 1)}">&raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Posts page contents -->
+
+        <!-- Footer -->
+        <div th:replace="fragments/layout_footer :: footer"></div>
+        <!-- /Footer -->
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- JQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+        <!-- Summernote JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script th:src="@{/javascript/code.js}" defer></script>
+
+    </body>
+</html>

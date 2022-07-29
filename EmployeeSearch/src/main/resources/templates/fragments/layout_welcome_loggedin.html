@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Welcome Logged In</title>
+    </head>
+    <body>
+
+        <!-- Welcome page content -->
+        <div th:fragment="welcome">
+            <div class="container">
+                <div class="row">
+                    <!-- Big logo -->
+                    <div class="col mt-5 py-5 text-center">
+                        <a th:href="@{/EmployeeSearch/Users/{useralias}(useralias=${account.useralias})}">
+                            <img name="welcomeBigLogo" src="/media/empSiteLogo_in.png" 
+                                 onmouseover="this.src='/media/empSiteLogo_out.png';"
+                                 onmouseout="this.src='/media/empSiteLogo_in.png';" alt="Posts"/>
+                        </a>
+                    </div>
+                    <!-- Links -->
+                    <div class="col-xl mt-5 mx-5 px-5 py-5">
+                        <div class="container smallbox">
+                            <ul class="list-group">
+                                <!-- Home page -->
+                                <li class="list-group-item bg-light">
+                                    <div class="verticalrulewhite2"></div>
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}(useralias=${account.useralias})}" class="darkish">
+                                        <i class="fas fa-home mr-5 darkishicon"></i> Home Page</a>
+                                </li>
+                                <!-- Help -->
+                                <li class="list-group-item bg-light">
+                                    <div class="verticalrulewhite2"></div>
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Help(useralias=${account.useralias})}" class="darkish">
+                                        <i class="fas fa-question-circle mr-5 pr-4 darkishicon"></i> Help</a>
+                                </li>
+                                <!-- Terms of service -->
+                                <li class="list-group-item bg-light">
+                                    <div class="verticalrulewhite2"></div>
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/TermsOfService(useralias=${account.useralias})}" class="darkish">
+                                        <i class="fas fa-balance-scale mr-4 darkishicon"></i> Terms of service</a>
+                                </li>
+                                <!-- Sign out -->
+                                <li class="list-group-item bg-light">
+                                    <div class="verticalrulewhite2"></div>
+                                    <a th:href="@{/EmployeeSearch/Logout}" class="darkish">
+                                        <i class="fas fa-sign-out-alt mr-3 pr-5 darkishicon"></i>Sign out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Welcome page content -->
+
+    </body>
+</html>

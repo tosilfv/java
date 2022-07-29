@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Register - Employee Search</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet"/>
+        <!-- Summernote CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+        <!-- Register form -->
+        <div class="blocks">
+            <div class="container col-sm-10 col-md-10 col-lg-10 col-xl-6 p-5 text-center">
+                <div class="card">
+                    <div>
+                        <!-- Sign up header -->
+                        <h5 class="card-header py-4 text-center text-light darkbluebg">
+                            <strong>Sign up</strong>
+                        </h5>
+                        <!-- Sign up information -->
+                        <small class="text-info">Allowed usual and special characters: capital and lowercase letters, numbers, &, @, _</small><br/>
+                        <small class="text-warning">Not allowed characters: all others e.g. spaces, commas, full stops etc.</small>
+                    </div>
+                    <!-- Form elements -->
+                    <div class="card-body pt-0 px-lg-5">
+                        <form th:action="@{/EmployeeSearch/Register}" th:object="${account}" method="POST">
+                            <!-- Username -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-user-circle prefix" aria-hidden="true"></i>
+                                <input type="text" id="RegisterFormUsername" th:field="*{username}" name="username" class="form-control" 
+                                       aria-describedby="RegisterFormUsernameHelpBlock"/>
+                                <label for="RegisterFormUsername">Username</label>
+                            </div>
+                            <div>
+                                <small class="form-text my-4 text-danger" th:if="${#fields.hasErrors('username')}" 
+                                       th:errors="*{username}">username validation error message
+                                </small>
+                                <small id="RegisterFormUsernameHelpBlock" class="form-text mb-4 text-muted">
+                                    Username is used with login
+                                </small>
+                            </div>
+                            <!-- Password -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-lock prefix" aria-hidden="true"></i>
+                                <input type="password" id="RegisterFormPassword" th:field="*{password}" name="password" class="form-control" 
+                                       aria-describedby="RegisterFormPasswordHelpBlock"/>
+                                <label for="RegisterFormPassword">Password</label>
+                            </div>
+                            <div>
+                                <small class="form-text my-4 text-danger" th:if="${#fields.hasErrors('password')}" 
+                                       th:errors="*{password}">password validation error message
+                                </small>
+                                <small id="RegisterFormPasswordHelpBlock" class="form-text mb-4 text-muted">
+                                    A forgotten password cannot be recovered
+                                </small>
+                            </div>
+                            <!-- Matching password -->
+                            <div class="md-form input-group input-with-pre-icon">
+                                <i class="fas fa-lock prefix" aria-hidden="true"></i>
+                                <input type="password" id="RegisterFormMatchingPassword" th:field="*{confirm}" name="confirm" class="form-control" 
+                                       aria-describedby="RegisterFormMatchingPasswordHelpBlock"/>
+                                <label for="RegisterFormMatchingPassword">Confirm</label>
+                            </div>
+                            <div>
+                                <small class="form-text my-4 text-danger" th:if="${#fields.hasErrors('confirm')}" 
+                                       th:errors="*{confirm}">confirm validation error message
+                                </small>
+                                <small id="RegisterFormMatchingPasswordHelpBlock" class="form-text mb-4 text-muted">
+                                    This should match the password you typed in the password field
+                                </small>
+                            </div>
+                            <!-- Real name -->
+                            <div class="md-form">
+                                <input type="text" id="RegisterFormRealname" th:field="*{realname}" name="realname" class="form-control" 
+                                       aria-describedby="RegisterFormRealnameHelpBlock"/>
+                                <label for="RegisterFormRealname">Your name</label>
+                                <small class="form-text my-4 text-danger" th:if="${#fields.hasErrors('realname')}"
+                                       th:errors="*{realname}">realname validation error message
+                                </small>
+                                <small id="RegisterFormRealnameHelpBlock" class="form-text mb-4 text-muted">
+                                    Your real name
+                                </small>
+                            </div>
+                            <!-- Useralias -->
+                            <div class="md-form">
+                                <input type="text" id="RegisterFormUseralias" th:field="*{useralias}" name="useralias" class="form-control" 
+                                       aria-describedby="RegisterFormUseraliasHelpBlock"/>
+                                <label for="RegisterFormUseralias">Alias</label>
+                                <small class="form-text my-4 text-danger" th:if="${#fields.hasErrors('useralias')}"
+                                       th:errors="*{useralias}">useralias validation error message
+                                </small>
+                                <small id="RegisterFormUseraliasHelpBlock" class="form-text mb-4 text-muted">
+                                    Alias will be your unique identifier
+                                </small>
+                            </div>
+                            <!-- Sign up button -->
+                            <button class="btn btn-outline-info btn-block my-4 z-depth-0 waves-effect" type="submit" id="signup">Sign up</button>
+                            <!-- Terms of service -->
+                            <p>By clicking
+                                <em>Sign up</em> you agree to the
+                                <a th:href="@{/EmployeeSearch/TermsOfService}" id="toTermsOfServicePage">terms of service</a>.
+                            </p>
+                            <!-- _Hidden Sign up button -->
+                            <asp:button runat="server" type="submit" id="_hiddensignup"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Register form -->
+
+        <!-- Back to login page -->
+        <div th:replace="fragments/layout_links_texts :: login"></div>
+        <!-- /Back to login page -->
+
+        <!-- Back to main page -->
+        <div th:replace="fragments/layout_links_texts :: main"></div>
+        <!-- /Back to main page -->
+
+        <!-- Footer -->
+        <div th:replace="fragments/layout_footer :: footer"></div>
+        <!-- /Footer -->
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- JQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+        <!-- Summernote JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script th:src="@{/javascript/code.js}" defer></script>
+
+    </body>
+</html>

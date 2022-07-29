@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Home Non Edit Mode</title>
+    </head>
+    <body>
+
+        <!-- Home page non-edit-mode -->
+        <div th:fragment="homenonedit">
+            <div class="container-fluid">
+                <div class="row my-5">
+                    <!-- Home page title -->
+                    <div class="col-6">
+                        <h3 class="text-center darkblue">
+                            <i class="fas fa-home greyishicon"></i><strong class="ml-4 greyish">My Home Page</strong>
+                        </h3>
+                    </div>
+                    <!-- Edit layout button -->
+                    <div class="col-6 pr-5 text-right">
+                        <form th:action="@{/EmployeeSearch/Users/{useralias}/Edit(useralias=${account.useralias})}">
+                            <button type="submit" name="editLayoutButton" value="beginEditing" class="btn btn-sm btn-dark editbutton greyish">Edit Layout<i class="fas fa-edit ml-2 greyishicon"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Contents -->
+                <div class="row">
+                    <!-- Left column -->
+                    <div class="col-xl mx-5 w-75">
+                        <!-- User picture and introduction -->
+                        <div class="card mb-5">
+                            <div><h5 class="py-2 text-center darkbluebg greyish"><i class="fas fa-user-circle mr-3 whiteicon"></i><strong th:text="${account.useralias}">Useralias</strong></h5></div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- User picture -->
+                                    <div class="col-xl mr-5 my-5 pr-5">
+                                        <!-- Stock profile picture -->
+                                        <div th:if="${submittedProfilePicture} == false">
+                                            <div th:if="${account.stockProfilePicture} == 'male'">
+                                                <img src="" th:src="@{/media/profilePicture_default_male.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            </div>
+                                            <div th:if="${account.stockProfilePicture} == 'female'">
+                                                <img src="" th:src="@{/media/profilePicture_default_female.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            </div>
+                                            <div th:if="${account.stockProfilePicture} == 'neutral'">
+                                                <img src="" th:src="@{/media/profilePicture_default_neutral.png}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            </div>
+                                            <!-- Change picture and name -->
+                                            <br/>
+                                            <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#changePicture(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Change picture</strong></small></a>
+                                            <h5 class="mt-3 text-center text-dark"><strong th:text="${account.realname}">Real name</strong></h5>
+                                            <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#changeName(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Change name</strong></small></a>
+                                        </div>
+                                        <!-- Loaded profile picture -->
+                                        <div th:if="${submittedProfilePicture} == true">
+                                            <img src="" th:src="@{/EmployeeSearch/Users/{useralias}/LoadedProfilePicture/{loadedProfilePictureId}(useralias=${account.useralias},loadedProfilePictureId=${loadedProfilePicture.id})}" alt="No Image" class="img-fluid rounded-circle"/>
+                                            <!-- Change picture and name -->
+                                            <br/>
+                                            <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#changePicture(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Change picture</strong></small></a>
+                                            <h5 class="mt-3 text-center text-dark"><strong th:text="${account.realname}">Real name</strong></h5>
+                                            <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#changeName(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Change name</strong></small></a>
+                                        </div>
+                                    </div>
+                                    <!-- Introduction -->
+                                    <div class="col-xl ml-5 pl-5">
+                                        <p><i class="fas fa-quote-left mr-1"></i>Introduction of myself and about my profile</p>
+                                        <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#editIntroduction(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Edit Introduction</strong></small></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                            <!-- Ability tab -->
+                            <li class="nav-item">
+                                <a class="nav-link darkbluebg greyish active" id="proficiency-tab" data-toggle="tab" href="#proficiency" role="tab" aria-controls="proficiency"
+                                   aria-selected="true">Proficiency<i class="fas fa-user-tie ml-3 greyishicon"></i></a>
+                            </li>
+                            <!-- Education tab -->
+                            <li class="nav-item">
+                                <a class="nav-link darkbluebg greyish" id="education-tab" data-toggle="tab" href="#education" role="tab" aria-controls="education"
+                                   aria-selected="false">Education<i class="fas fa-graduation-cap ml-3 greyishicon"></i></a>
+                            </li>
+                            <!-- Work history tab -->
+                            <li class="nav-item">
+                                <a class="nav-link darkbluebg greyish" id="workHistory-tab" data-toggle="tab" href="#workHistory" role="tab" aria-controls="workHistory"
+                                   aria-selected="false">Work History<i class="fas fa-briefcase ml-3 greyishicon"></i></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content py-5" id="profileTabsContent">
+                            <!-- Abilities -->
+                            <div class="tab-pane fade show active" id="proficiency" role="tabpanel" aria-labelledby="proficiency-tab">
+                                <!-- Add ability link -->
+                                <a id="addAbilityLink" th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#addAbility(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Add Ability</strong></small></a>
+                                <!-- First abilities list -->
+                                <div th:if="${!viewFirstAbilities.empty}" th:each="ability:${viewFirstAbilities}">
+                                    <div class="card my-5 w-100 border-primary">
+                                        <div class="card-body">
+                                            <form th:if="${account} == ${ability.account}" class="text-right" th:action="@{/EmployeeSearch/Users/{useralias}/Abilities/{abilityid}/DeleteAbility(useralias=${account.useralias},abilityid=${ability.id})}" th:method="DELETE">
+                                                <button name="deleteAbilityButton" class="btn btn-sm aligncenter" onclick="return confirm('* * * DELETE ABILITY * * * \n \n* * ARE YOU SURE? * *\n \n Deleting the ability also deletes the associated praises.');"><i class="fas fa-trash-alt mr-3"></i>Delete</button>
+                                            </form>
+                                            <p class="card-text mb-0 text-center" th:utext="${ability.abilitytext}">ability text</p>
+                                            <p class="mt-0 mb-2 blueish">Praises: <span th:text="${ability.praises}">praises</span></p>
+                                            <!-- Praises list -->
+                                            <div th:each="praise:${viewAllPraises}">
+                                                <div th:if="${ability} == ${praise.ability}" class="container-fluid">
+                                                    <div class="row my-3">
+                                                        <div class="col text-left">
+                                                            <strong th:text="${praise.useralias}">alias</strong>:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row my-3 overflow-auto">
+                                                        <div class="col text-left">
+                                                            <span th:utext="${praise.praisetext}">praise</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Last abilities list -->
+                                <div th:if="${!viewLastAbilities.empty}" class="text-left" role="button" data-toggle="collapse" data-target="#collapseLastAbilitiesHome">
+                                    <button class="btn btn-sm h5 my-3"><i class="fas fa-hand-point-up mr-3 waves-effect waves-light"></i>Show More Abilities</button>
+                                </div>
+                                <div th:if="${!viewLastAbilities.empty}" class="collapse hide" id="collapseLastAbilitiesHome">
+                                    <div th:each="ability:${viewLastAbilities}">
+                                        <div class="card my-5 w-100">
+                                            <div class="card-body">
+                                                <form th:if="${account} == ${ability.account}" class="text-right" th:action="@{/EmployeeSearch/Users/{useralias}/Abilities/{abilityid}/DeleteAbility(useralias=${account.useralias},abilityid=${ability.id})}" th:method="DELETE">
+                                                    <button class="btn btn-sm aligncenter" onclick="return confirm('* * * DELETE ABILITY * * * \n \n* * ARE YOU SURE? * *\n \n Deleting the ability also deletes the associated praises.');"><i class="fas fa-trash-alt mr-3"></i>Delete</button>
+                                                </form>
+                                                <p class="card-text mb-0 text-center" th:utext="${ability.abilitytext}">ability text</p>
+                                                <p class="mt-0 mb-2 blueish">Praises: <span th:text="${ability.praises}">praises</span></p>
+                                                <!-- Praises list -->
+                                                <div th:each="praise:${viewAllPraises}">
+                                                    <div th:if="${ability} == ${praise.ability}" class="container-fluid">
+                                                        <div class="row my-3">
+                                                            <div class="col text-left">
+                                                                <strong th:text="${praise.useralias}">alias</strong>:
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-3 overflow-auto">
+                                                            <div class="col text-left">
+                                                                <span th:utext="${praise.praisetext}">praise</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Education -->
+                            <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+                                <!-- Edit education link -->
+                                <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#editEducation(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Edit Education</strong></small></a>
+                                <!-- Education text -->
+                                <p>Education Text</p>
+                            </div>
+                            <!-- Work history -->
+                            <div class="tab-pane fade" id="workHistory" role="tabpanel" aria-labelledby="workHistory-tab">
+                                <!-- Edit work history link -->
+                                <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#editWorkHistory(useralias=${account.useralias})}"><small class="mt-3 text-center text-dark"><strong>Edit Work History</strong></small></a>
+                                <!-- Work History text -->
+                                <p>Work History Text</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right column -->
+                    <div class="col-xl mx-5 w-75">
+                        <!-- Background -->
+                        <div class="card mb-5">
+                            <div><h5 class="py-2 text-center darkbluebg greyish"><strong><i class="fas fa-history mr-3 greyishicon"></i>Background</strong></h5></div>
+                            <div class="overflow-auto">
+                                <div>
+                                    <p class="mt-3 text-center text-dark">Background text</p>
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#editBackground(useralias=${account.useralias})}"><small class="ml-3 mt-3 text-center text-dark"><strong>Edit Background</strong></small></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Contact Information -->
+                        <div class="card mb-5">
+                            <div><h5 class="py-2 text-center darkbluebg greyish"><strong><i class="fas fa-address-card mr-3 greyishicon"></i>Contact Information</strong></h5></div>
+                            <div class="overflow-auto">
+                                <div th:href="@{/EmployeeSearch/Users}">
+                                    <p class="mt-3 text-center text-dark">Contact Information text</p>
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences#editContactInformation(useralias=${account.useralias})}"><small class="ml-3 mt-3 text-center text-dark"><strong>Edit Contact Information</strong></small></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Connections -->
+                        <div class="card mb-5">
+                            <h5 class="px-4 py-2 text-left darkbluebg greyish">
+                                <strong class="mr-5"><i class="fas fa-user mr-3 greyishicon"></i>Connections (<span th:text="${connectionEstablishedSize}">amount</span>)</strong>
+                                <a th:href="@{/EmployeeSearch/Users/{useralias}/Connections(useralias=${account.useralias})}"><small class="greyish">view</small></a>
+                            </h5>
+                            <div class="container overflow-auto">
+                                <div th:each="connection:${connectionEstablished}">
+                                    <div class="row">
+                                        <div class="col ml-3">
+                                            <a th:href="@{'/EmployeeSearch/Users/' + ${account.useralias} + '/Visiting/' + ${connection[0]}}"><span class="text-dark"><strong th:text="${connection[1]}">Real name</strong></span></a>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Uploads -->
+                        <div class="card mb-5">
+                            <div>
+                                <h5 class="px-4 py-2 text-left darkbluebg greyish">
+                                    <strong class="mr-5"><i class="fas fa-cloud-upload-alt mr-3 greyishicon"></i>Uploads (<span th:text="${uploadsSize}">size</span>)</strong>
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Uploads(useralias=${account.useralias})}"><small class="greyish">manage</small></a>
+                                </h5>
+                            </div>
+                            <div class="overflowing">
+                                <div th:unless="${uploads} == null or ${uploads.empty}" th:each="upload:${uploads}">
+                                    <a th:href="@{/EmployeeSearch/Users/{useralias}/FileUpload/{fileuploadId}/RetrieveFileUpload(useralias=${account.useralias},fileuploadId=${upload.id})}"><h5 class="ml-4 mt-3 text-left text-dark" th:text="${upload.name}">name</h5></a>
+                                    <hr/>
+                                </div>
+                                <div th:if="${uploads} == null or ${uploads.empty}">
+                                    <h5 class="my-4 text-center text-dark">No Files</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Home page non-edit-mode -->
+
+    </body>
+</html>

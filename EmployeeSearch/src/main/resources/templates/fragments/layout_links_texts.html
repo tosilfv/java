@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Links and Texts</title>
+    </head>
+    <body>
+
+        <!-- Back to Login Page -->
+        <div th:fragment="login">
+            <div class="container">
+                <div class="text-center">
+                    <a th:href="@{/EmployeeSearch/Login}" id="backToLoginPage">to Login Page</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Back to Login Page -->
+
+        <!-- Back to Main Page -->
+        <div th:fragment="main">
+            <div class="container">
+                <div class="text-center">
+                    <a th:href="@{/}" id="backToMainPage">to Main Page</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Back to Main Page -->
+
+        <!-- Back to Posts Page -->
+        <div th:fragment="posts">
+            <div class="container">
+                <div class="text-center">
+                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Posts(useralias=${account.useralias})}">to Posts Page</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Back to Posts Page -->
+
+        <!-- Back to Preferences Page -->
+        <div th:fragment="preferences">
+            <div class="container">
+                <div class="text-center">
+                    <a th:href="@{/EmployeeSearch/Users/{useralias}/Preferences(useralias=${account.useralias})}" class="text-dark">
+                        <strong>Oops, I don't want this, take me back!</strong></a>
+                </div>
+            </div>
+        </div>
+        <!-- /Back to Preferences Page -->
+
+        <!-- Back to Register Page -->
+        <div th:fragment="register">
+            <div class="container">
+                <div class="text-center">
+                    <a th:href="@{/EmployeeSearch/Register}" id="backToRegisterPage">to Register Page</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Back to Register Page -->
+
+        <!-- Copyright -->
+        <div th:fragment="copyright">
+            <p>&copy; 2020 Copyright: Toni Silfver</p>
+        </div>
+        <!-- /Copyright -->
+
+        <!-- Date -->
+        <div th:fragment="date">
+            <p th:text="${date}">Date</p>
+        </div>
+        <!-- /Date -->
+
+        <!-- Logout -->
+        <div th:fragment="logout">
+            <form th:action="@{/}">
+                <input type="submit" value="Logout"/>
+            </form>
+        </div>
+        <!-- /Logout -->
+
+        <!-- Terms of service page content -->
+        <div th:fragment="terms">
+            <div class="container">
+                <footer class="page-footer mt-3">
+                    <div class="font-small footer-copyright p-5 text-dark">
+                        <p class="h5 mb-4">Terms of Service</p>
+                        <p class="h6 mb-4">Terms and Conditions</p>
+                        <p>By using this Site at 
+                            guarded-thicket-83287.herokuapp.com (the "Site") you 
+                            agree to be bound by and accept the following 
+                            disclaimer along with the terms and conditions about 
+                            the Site's cookie policy, privacy policy, 
+                            availability, viruses, bugs and malicious use, 
+                            intellectual property rights, liability and links. 
+                            Please read them carefully.</p>
+                        <p class="h6 mb-4">Disclaimer</p>
+                        <p>Toni Silfver (the "Site creator") created the Site for 
+                            a school project and as such it should be 
+                            comprehended. The Site has not been created for 
+                            monetary gain. Any information on the Site should not 
+                            be substituted for an advice. 
+                            No liability is assumed by anyone for losses 
+                            suffered by any person or organisation relying 
+                            directly or indirectly on information published or 
+                            files shared on the Site. Views expressed in any post, 
+                            comment or like are the views of the authors 
+                            individually and do not necessarily reflect the view 
+                            of the Site creator.</p>
+                        <p>Information appearing on the Site may only be 
+                            reproduced with prior approval from the Site creator 
+                            and credit being given to the source. The names and 
+                            quotes presented on the welcome page images are all 
+                            completely fictional. Credits for 
+                            images on the welcome page are all courtesy of 
+                            unsplash.com in the order of appearance: woman # 1 
+                            Eddie Dean (@leestone007), man # 1 Sean Benesh 
+                            (Portland, Oregon, seanbenesh.com), woman # 2 Alex 
+                            Robinson (New Jersey, USA, instagram.com/shotbyaliix), 
+                            man # 2 Benigno Hoyuela (USA).</p>
+                        <p class="h6 mb-4">Cookie policy</p>
+                        <p>The required first party cookies (the cookies that are 
+                            placed by the Site) are placed and set by the Site 
+                            in order to enable you to fully use the Site and its 
+                            features. Without these cookies logging in would not 
+                            be possible.</p>
+                        <p class="h6 mb-4">Privacy policy</p>
+                        <p>Any personal data collected through your use of the 
+                            Site is done by the Site only in order for the Site 
+                            to operate effectively and provide you the best 
+                            experience with it. The data collected by the Site is 
+                            the data that you have written in the registration 
+                            form, the login form and everything you have written 
+                            to any post or comment, the likes you have made 
+                            in anyone's Home Page, all the content in your 
+                            Home Page, all the files you have added to your 
+                            Home Page or to any post or to any comment you have 
+                            written.</p>
+                        <p>You can erase all this information that the Site has 
+                            collected of you by deleting your account from the 
+                            account deletion section in your Home Page. This 
+                            action will remove all of the stored data of your 
+                            account from the Heroku database of this Site. The 
+                            Site creator, though, makes no guarantee that if any 
+                            of the information you have provided is saved or not 
+                            saved by Heroku in any way, form or means not 
+                            mentioned here. If you wish to make sure Heroku does 
+                            not have any of the information you have provided to 
+                            the Site at any time, please contact Heroku about it. 
+                            You will find Heroku contact information currently in 
+                            the year of 2020 from the internet address at 
+                            heroku.com.</p>
+                        <p class="h6 mb-4">Availability</p>
+                        <p>There is and will not be any service to provide a 
+                            forgotten password or a password to replace a 
+                            forgotten one to the user under any circumstances. 
+                            Also there will be no guarantee that the Site will 
+                            always be available or be uninterrupted.</p>
+                        <p class="h6 mb-4">Viruses, bugs and malicious use</p>
+                        <p>You are responsible for configuring your information 
+                            technology, hardware, software and platform to access 
+                            the Site. You should use your own virus protection 
+                            software. You must not misuse the Site by 
+                            introducing viruses, trojans, worms, logic bombs or 
+                            other material that is malicious or technologically 
+                            hamful. You must not attempt to gain 
+                            unauthorised access to this Site, the server 
+                            on which this Site is stored or any server, 
+                            computer or database connected to this Site. 
+                            You must not attack this Site via a denial-of-service 
+                            attack or a distributed denial-of service attack 
+                            or doing anything which may affect the functioning 
+                            of or the ability of any other person to access 
+                            the Site. In any such breach your right to use this 
+                            Site will cease immediately and such breach will be 
+                            reported to the relevant authorities at Heroku.</p>
+                        <p class="h6 mb-4">Intellectual property rights</p>
+                        <p>The material and content provided on the Site is 
+                            for your personal, non-commercial use only and 
+                            you agree not for yourself or through or by way of 
+                            assistance from any third party to distribute, 
+                            copy, extract or commercially exploit such material 
+                            or content. This Site as a whole is protected 
+                            by copyright and other intellectual property 
+                            rights. All rights are reserved.</p>
+                        <p class="h6 mb-4">Liability</p>
+                        <p>The Site creator disclaims all liability and 
+                            responsibility arising from any reliance placed on the 
+                            content of the Site by you, or by anyone who may be 
+                            informed of the Site's contents.</p>
+                        <p class="h6 mb-4">Links</p>
+                        <p>The Site creator makes no representations whatsoever 
+                            about any other sites that you may access 
+                            through this Site or that may link to this Site.
+                        </p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <!-- /Terms of service page content -->
+
+    </body>
+</html>

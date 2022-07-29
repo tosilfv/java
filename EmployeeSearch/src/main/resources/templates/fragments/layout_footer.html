@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Fragments Layout Footer</title>
+    </head>
+    <body>
+
+        <!-- Footer -->
+        <div th:fragment="footer">
+            <div class="container font-small">
+                <footer class="page-footer mb-4 mt-3 darkbluebg">
+                    <!-- Copyright -->
+                    <div class="footer-copyright p-5 text-center">
+                        <div th:replace="fragments/layout_links_texts :: copyright"></div>
+                        <div th:replace="fragments/layout_links_texts :: date"></div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <!-- /Footer -->
+
+    </body>
+</html>
